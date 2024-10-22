@@ -1,15 +1,15 @@
 import { Repository } from 'typeorm';
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 
 import { Report } from './report.entity';
 import { CreateReportDto } from './dtos/create-report.dto';
-import { User } from 'src/users/user.entity';
+import { User } from '../users/user.entity';
 import { GetEstimateDto } from './dtos/get-estimate.dto';
+import { REPORT_REPOSITORY } from '../constants';
 
 @Injectable()
 export class ReportsService {
-  constructor(@InjectRepository(Report) private repo: Repository<Report>) {}
+  constructor(@Inject(REPORT_REPOSITORY) private repo: Repository<Report>) {}
 
   createEstimate({ make, model, lng, lat, year, mileage }: GetEstimateDto) {
     return this.repo

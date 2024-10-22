@@ -1,15 +1,15 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './user.entity';
 import { AuthService } from './auth.service';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { CurrentUserMiddleware } from './middlewares/current-user.middleware';
+import { userProviders } from './users.providers';
+import { DatabaseModule } from '../database/database.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
+  imports: [DatabaseModule],
   controllers: [UsersController],
-  providers: [UsersService, AuthService],
+  providers: [...userProviders, UsersService, AuthService],
 })
 export class UsersModule {
   configure(consumer: MiddlewareConsumer) {
